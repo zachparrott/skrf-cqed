@@ -85,8 +85,6 @@ def coupled_lines(
         theta_plus = beta_plus * length
         theta_minus = beta_minus * length
 
-    # 2 -> 3
-    # 3 -> 2
     z_matrix = np.zeros((len(frequency), 4, 4), dtype=complex)
 
     z_matrix[:, 0, 0] = z_matrix[:, 1, 1] = z_matrix[:, 2, 2] = z_matrix[:, 3, 3] = (
@@ -95,7 +93,6 @@ def coupled_lines(
     z_matrix[:, 0, 3] = z_matrix[:, 3, 0] = z_matrix[:, 1, 2] = z_matrix[:, 2, 1] = (
         -1 / 2 * 1j * (Zo_plus / np.sin(theta_plus) - Zo_minus / np.sin(theta_minus))
     )
-
     z_matrix[:, 0, 2] = z_matrix[:, 2, 0] = z_matrix[:, 1, 3] = z_matrix[:, 3, 1] = (
         -1 / 2 * 1j * (Zo_plus / np.sin(theta_plus) + Zo_minus / np.sin(theta_minus))
     )
