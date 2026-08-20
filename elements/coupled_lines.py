@@ -1,19 +1,22 @@
 import numpy as np
 import skrf as rf
 
+from skrf.network import Network
+from skrf.frequency import Frequency
+
 
 def coupled_lines(
-    frequency,
-    length,
-    vph,
-    z0=50,
+    frequency: Frequency,
+    length: float,
+    vph: float,
+    z0: float = 50,
     name="CoupledLines",
     *,
-    ZoPlus=None,
-    ZoMinus=None,
-    zetaC=None,
-    zetaL=None,
-):
+    ZoPlus: float | None = None,
+    ZoMinus: float | None = None,
+    zetaC: float | None = None,
+    zetaL: float | None = None,
+) -> Network:
     """
     Calculate the coupled-line response using either:
     - the odd/even mode impedances: (ZoPlus, ZoMinus), or
@@ -100,4 +103,4 @@ def coupled_lines(
         -1 / 2 * 1j * (Zo_plus / np.tan(theta_plus) - Zo_minus / np.tan(theta_minus))
     )
 
-    return rf.Network(frequency=frequency, z=z_matrix, name=name)
+    return Network(frequency=frequency, z=z_matrix, name=name)
