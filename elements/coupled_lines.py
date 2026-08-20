@@ -1,5 +1,4 @@
-import numpy as np
-import skrf as rf
+from numpy import zeros, tan, sqrt, sin
 
 from skrf.network import Network
 from skrf.frequency import Frequency
@@ -68,39 +67,39 @@ def coupled_lines(
     else:
         if zetaC is None or zetaL is None:
             raise ValueError("zetaC and zetaL must both be provided.")
-        Zo_plus = z0 * np.sqrt((1 + zetaL) / (1 - zetaC))
-        Zo_minus = z0 * np.sqrt((1 - zetaL) / (1 + zetaC))
+        Zo_plus = z0 * sqrt((1 + zetaL) / (1 - zetaC))
+        Zo_minus = z0 * sqrt((1 - zetaL) / (1 + zetaC))
 
     # now continue with the rest of the calculation
     beta = frequency.w / vph
 
     if has_zeta_pair:
-        beta_plus = beta * np.sqrt((1 - zetaC) * (1 + zetaL))
-        beta_minus = beta * np.sqrt((1 + zetaC) * (1 - zetaL))
+        beta_plus = beta * sqrt((1 - zetaC) * (1 + zetaL))
+        beta_minus = beta * sqrt((1 + zetaC) * (1 - zetaL))
         theta_plus = beta_plus * length
         theta_minus = beta_minus * length
     else:
         # if you only provide ZoPlus/ZoMinus, you would need thetaPlus/thetaMinus
         # assume it is equal zetas
         zeta = (z0**2 - Zo_minus**2) / (Zo_plus**2 + Zo_minus**2)
-        beta_plus = beta * np.sqrt((1 - zeta) * (1 + zeta))
-        beta_minus = beta * np.sqrt((1 + zeta) * (1 - zeta))
+        beta_plus = beta * sqrt((1 - zeta) * (1 + zeta))
+        beta_minus = beta * sqrt((1 + zeta) * (1 - zeta))
         theta_plus = beta_plus * length
         theta_minus = beta_minus * length
 
-    z_matrix = np.zeros((len(frequency), 4, 4), dtype=complex)
+    z_matrix = zeros((len(frequency), 4, 4), dtype=complex)
 
     z_matrix[:, 0, 0] = z_matrix[:, 1, 1] = z_matrix[:, 2, 2] = z_matrix[:, 3, 3] = (
-        -1 / 2 * 1j * (Zo_plus / np.tan(theta_plus) + Zo_minus / np.tan(theta_minus))
+        -1 / 2 * 1j * (Zo_plus / tan(theta_plus) + Zo_minus / tan(theta_minus))
     )
     z_matrix[:, 0, 3] = z_matrix[:, 3, 0] = z_matrix[:, 1, 2] = z_matrix[:, 2, 1] = (
-        -1 / 2 * 1j * (Zo_plus / np.sin(theta_plus) - Zo_minus / np.sin(theta_minus))
+        -1 / 2 * 1j * (Zo_plus / sin(theta_plus) - Zo_minus / sin(theta_minus))
     )
     z_matrix[:, 0, 2] = z_matrix[:, 2, 0] = z_matrix[:, 1, 3] = z_matrix[:, 3, 1] = (
-        -1 / 2 * 1j * (Zo_plus / np.sin(theta_plus) + Zo_minus / np.sin(theta_minus))
+        -1 / 2 * 1j * (Zo_plus / sin(theta_plus) + Zo_minus / sin(theta_minus))
     )
     z_matrix[:, 0, 1] = z_matrix[:, 1, 0] = z_matrix[:, 2, 3] = z_matrix[:, 3, 2] = (
-        -1 / 2 * 1j * (Zo_plus / np.tan(theta_plus) - Zo_minus / np.tan(theta_minus))
+        -1 / 2 * 1j * (Zo_plus / tan(theta_plus) - Zo_minus / tan(theta_minus))
     )
 
     return Network(frequency=frequency, z=z_matrix, name=name)
