@@ -1,0 +1,5 @@
+.ipynb_checkpoints
+!.git*
+
+scikit_rf_cqed.egg-info/
+*__pycache__/

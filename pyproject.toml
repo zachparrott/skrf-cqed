@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scikit-rf-cqed"
+version = "0.1.0"
+description = "Extension of scikit-rf for analysis of superconducting circuit QED systems"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "scikit-rf",
+    "resonator-tools",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["skrf_cqed*"]
