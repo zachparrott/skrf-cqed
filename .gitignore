@@ -3,3 +3,5 @@
 
 scikit_rf_cqed.egg-info/
 *__pycache__/
+
+.vscode/

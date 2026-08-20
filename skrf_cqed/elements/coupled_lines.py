@@ -1,7 +1,8 @@
-from numpy import zeros, tan, sqrt, sin
+from __future__ import annotations
 
-from skrf.network import Network
+from numpy import sin, sqrt, tan, zeros
 from skrf.frequency import Frequency
+from skrf.network import Network
 
 
 def coupled_lines(

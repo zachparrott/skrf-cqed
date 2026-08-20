@@ -1,6 +1,6 @@
 from numpy import deg2rad
-from skrf.media.media import DefinedGammaZ0
 from skrf.frequency import Frequency
+from skrf.media.media import DefinedGammaZ0
 
 
 class DefinedBetaZ0(DefinedGammaZ0):

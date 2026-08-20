@@ -1,8 +1,8 @@
 # scikit rf capacitor_q does not have adjustable frequency dependence
 from numpy import zeros
-from skrf.network import Network
-from skrf.frequency import Frequency
 from skrf.constants import NumberLike
+from skrf.frequency import Frequency
+from skrf.network import Network
 
 
 def capacitorQ(
