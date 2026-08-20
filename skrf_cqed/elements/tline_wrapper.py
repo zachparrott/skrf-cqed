@@ -3,7 +3,7 @@ from skrf.media.media import DefinedGammaZ0
 from skrf.frequency import Frequency
 
 
-def DefinedBetaZ0(DefinedGammaZ0):
+class DefinedBetaZ0(DefinedGammaZ0):
     """
     A media class that defines a transmission line with a specified beta and z0.
     This is useful for creating transmission lines with specific phase velocities.
@@ -29,7 +29,7 @@ def DefinedBetaZ0(DefinedGammaZ0):
         super().__init__(frequency=frequency, z0=z0, gamma=gamma)
 
     def line_electrical_length(
-        self, angle: float, f0: float, unit: str = "deg"
+        self, angle: float, f0: float, unit: str = "deg", **kwargs
     ) -> float:
         """
         Calculate the electrical length of the transmission line.
@@ -54,11 +54,11 @@ def DefinedBetaZ0(DefinedGammaZ0):
             raise ValueError("Unit must be 'deg' or 'rad'.")
 
         # Calculate the physical length using the phase constant
-        length = angle_rad / self.gamma.imag  # gamma.imag is beta
+        length = angle_rad / self.beta
         # return length
 
         length = angle_rad * self.frequency.f / f0 / self.beta
 
-        line = self.line(length=length, unit="m")
+        line = self.line(d=length, unit="m", **kwargs)
 
         return line
