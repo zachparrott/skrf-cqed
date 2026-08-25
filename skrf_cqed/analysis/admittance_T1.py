@@ -25,3 +25,15 @@ def differential_admittance(network: Network) -> Network:
     )
 
     return diff_network
+
+
+def purcell_t1(network: Network, capShunt: float) -> float:
+    """
+    Assuming a single port network, return the Purcell T1 versus frequency of a qubit coupled to the provided lossy network.
+    """
+    if network.number_of_ports != 1:
+        raise ValueError("Network must be a single port network.")
+
+    GammaP = network.y_re[:, 0, 0] / capShunt
+
+    return 1 / GammaP

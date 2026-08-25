@@ -3,6 +3,7 @@ from skrf.frequency import Frequency
 from skrf.media.media import DefinedGammaZ0
 
 
+# todo: add loss as optional parameter to DefinedBetaZ0, and calculate gamma accordingly
 class DefinedBetaZ0(DefinedGammaZ0):
     """
     A media class that defines a transmission line with a specified beta and z0.
